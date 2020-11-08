@@ -4,6 +4,7 @@
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>
+#include <boost/log/utility/setup/file.hpp>
 #include <iostream>
 namespace logging = boost::log;
 
@@ -33,7 +34,7 @@ struct CallTrace
     }
 };
 
-#define EnableTracing                \
+#define EnableTracing            \
     do                           \
     {                            \
         CallTrace(__FUNCTION__); \
@@ -43,11 +44,30 @@ struct CallTrace
  * Function Call trace Ends here
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Try Catch Utilities 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #define TRY try
 #define CATCH_ALL                                       \
     catch (const std::exception &ex)                    \
     {                                                   \
         std::cout << "Exception " << ex.what() << "\n"; \
     }
+
+
+
+#define CATCH_ALL_RET                                   \
+    catch (const std::exception &ex)                    \
+    {                                                   \
+        std::cout << "Exception " << ex.what() << "\n"; \
+        return -1;                                      \
+    }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Try Catch Utilities 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 
 #endif // __LOGGER_H__

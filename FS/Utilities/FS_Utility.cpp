@@ -4,29 +4,40 @@
 #include "MetaRegion.hxx"
 #include "Logger.hxx"
 
+
+void init(const char *f = "sample.log")
+{
+    boost::log::add_file_log(f);
+
+    boost::log::core::get()->set_filter(
+        logging::trivial::severity >= logging::trivial::trace);
+}
+
 using namespace Nudfs::FS;
 using namespace Nudfs::FS::Constants;
 using namespace boost::program_options;
 
-static int ADD_DfsId = 0;
-static int Del_DfsId = 0;
-static bool Show = false;
-static bool InitMaster = false;
-
-const std::string DD(const int dfsid = 0)
+const std::string create_device(const int dfsid = 0)
 {
     EnableTracing;
     std::string c;
-    c += "dd if=/dev/zero of=" + Disk(dfsid);
+    c += "dd if=/dev/zero of=" + disk::name(dfsid);
     c += " bs=" + std::to_string(BlockSize);
     c += " count=" + BlockCountString(dfsid);
     return c;
 }
 
-void Exec(const std::string cmd)
+const std::string delete_device(const int dfsid = 0)
 {
     EnableTracing;
-    std::cout << cmd << "\n";
+    std::string c;
+    c += "rm -rf " + disk::name(dfsid);
+    return c;
+}
+
+void run_cmd(const std::string cmd)
+{
+    EnableTracing;
     namespace bp = boost::process;
     std::vector<std::string> args{"-c", cmd};
     bp::ipstream out;
@@ -35,76 +46,70 @@ void Exec(const std::string cmd)
     return;
 }
 
-void SetupMaster()
+int init_master()
 {
     EnableTracing;
     try
     {
-        Exec(DD(0));
-        Disks d;
-        d.Sync_Master();
+        run_cmd(create_device(0));
+        disks d;
+        d.sync_master();
     }
-    catch (const std::exception &e)
-    {
-        NU_ERRO << "error setting up Master " << e.what() << "\n";
-    }
+    CATCH_ALL_RET;
+    return 0;
 }
 
-void Add_NuDFS(const int x)
+int add_device(const int x)
 {
     EnableTracing;
     try
     {
-        Exec(DD(x));
-        Disks d;
-        d.Sync(x);
+        run_cmd(create_device(x));
+        disks d;
+        d.add(x);
     }
-    catch (const std::exception &e)
-    {
-        NU_ERRO << "error setting up Node " << e.what() << "\n";
-    }
+    CATCH_ALL_RET;
+    return 0;
 }
 
-void Del_NuDFS(const int x)
+int del_device(const int x)
 {
     EnableTracing;
     try
     {
-        Disks d;
-        d.Unlink(x);
+        run_cmd(delete_device(x));
+        disks d;
+        d.remove(x);
     }
-    catch (const std::exception &e)
-    {
-        NU_ERRO << "error Unlinking Node " << e.what() << "\n";
-    }
+    CATCH_ALL_RET;
+    return 0;
 }
 
-void Show_NuDFS()
+int show_devices()
 {
     EnableTracing;
     try
     {
-        Disks d;
-        d.Show();
+        disks d;
+        d.show();
     }
-    catch (const std::exception &e)
-    {
-        NU_ERRO << "error Showing Devices " << e.what() << "\n";
-    }
+    CATCH_ALL_RET;
+    return 0;
 }
 
 int main(int argc, const char **argv)
 {
+    init();
     EnableTracing;
     try
     {
         options_description desc("Allowed options");
         desc.add_options()
             ("help", "print this message")
-            ("Init", "Initialize Master")
-            ("Add", value<int>(), "New Block Device Index to be added [ 1 - 10 ]")
-            ("Del", value<int>(), "Block Device Index to be added [ 1 - 10 ]")
-            ("Show", "Show existing Devices in use");
+            ("init-master", "Initialize Master")
+            ("add-dev", value<int>(), "New Block Device Index to be added [ 1 - 10 ]")
+            ("del-dev", value<int>(), "Block Device Index to be added [ 1 - 10 ]")
+            ("show-dev", "show existing Devices in use");
         variables_map vm;
         store(parse_command_line(argc, argv, desc), vm);
         if (vm.count("help"))
@@ -112,44 +117,20 @@ int main(int argc, const char **argv)
             std::cout << desc << "\n";
             return 0;
         }
-
-        ADD_DfsId = (vm.count("Add")) ? vm["Add"].as<int>() : 0;
-        Del_DfsId = (vm.count("Del")) ? vm["Del"].as<int>() : 0;
-        Show = (vm.count("Show")) ? true : false;
-        InitMaster = (vm.count("Init")) ? true : false;
-
-        NU_INFO << " ADD " << ADD_DfsId ;
-        NU_INFO << " DEL " << Del_DfsId;
-        NU_INFO << " SHOW " << Show;
-        NU_INFO << " INIT " << InitMaster;
-
-        if (vm.count("Init"))
-        {
-            SetupMaster();
-            return 0;
-        }
+    
+        if (vm.count("init-master"))
+            return init_master();
             
-        if (vm.count("Add"))
-        {
-            Add_NuDFS(ADD_DfsId);
-            return 0;
-        }
-            
-        if (vm.count("Del"))
-        {
-            Del_NuDFS(Del_DfsId);
-            return 0;
-        }
+        if (vm.count("add-dev"))
+            return add_device(vm["add-dev"].as<int>());
 
-        if (vm.count("Show"))
-        {
-            Show_NuDFS();
-            return 0;
-        }
+        if (vm.count("del-dev"))
+            return del_device(vm["del-dev"].as<int>());
+        
+        if (vm.count("show-dev"))
+            return show_devices();
+        
     }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    CATCH_ALL_RET;
     return 0;
 }

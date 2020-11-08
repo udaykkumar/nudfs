@@ -3,70 +3,65 @@
 
 #include <iostream>
 #include "Logger.hxx"
+#include "Constants.hxx"
 
 namespace Nudfs
 {
     namespace FS
     {
-        namespace Constants
-        {
-            const std::string MasterDisk{"dfs"};
-            constexpr size_t Max_Supported_Disks{10};
-            constexpr size_t Max_Name_Len{126};
-            constexpr size_t BlockSize{4096};
-            constexpr size_t BlockCount{(1024 * 1024 * 1024) / BlockSize};
-            constexpr size_t BlockCount_DFS0{(1024 * 1024) / BlockSize};
-        } // namespace Constants
-
-        static const std::string Disk(const int id = 0)
-        {
-            return Constants::MasterDisk + std::to_string(id);
-        }
-
         static const std::string BlockCountString(const int id = 0)
         {
             return std::to_string(id ? Constants::BlockCount : Constants::BlockCount_DFS0);
         }
 
-        struct GuardType
+        struct type_guard
         {
             size_t Checksum_;
-            GuardType(const size_t x) : Checksum_(x) {}
+            type_guard(const size_t x) : Checksum_(x) {}
         };
 
-        
-        typedef GuardType  DiskFoot;
-        typedef GuardType  DiskHead;
-
-        struct DiskEntry
+        struct disk
         {
-            GuardType    Head_;
-            char         Name_[Constants::Max_Name_Len];
-            GuardType    Foot_;
- 
-            DiskEntry(std::string n) :
-                Head_(0),
-                Foot_(0) 
+            type_guard  head_;
+            char        name_[Constants::Max_Name_Len];
+            type_guard  foot_;
+
+            disk(std::string n) : 
+                head_(0),
+                foot_(0)
             {
                 EnableTracing;
-                std::memcpy(Name_, n.c_str(), Constants::Max_Name_Len);
+                std::memcpy(name_, n.c_str(), Constants::Max_Name_Len);
             }
 
+            disk() : 
+                head_(0),
+                foot_(0)
+            {
+                EnableTracing;
+                std::memset(name_, 0x00, Constants::Max_Name_Len);
+            }
+
+            static const std::string name(const int id = 0)
+            {
+                return Constants::MasterDisk + std::to_string(id);
+            }
         };
 
-        
-        struct Disks
+        struct disks
         {
-            DiskEntry disks_[Constants::Max_Supported_Disks];
+            disk disk_[Constants::Max_Supported_Disks];
 
-            Disks();
-            ~Disks();
+            disks();
+            ~disks();
 
         public:
-            void Sync(const int id = 0);
-            void Sync_Master();
-            void Unlink(const int id);
-            void Show();
+            void add(const int id = 0);
+            void sync_master();
+            void remove(const int id);
+            void show();
+
+            
         };
 
     } // namespace FS

@@ -6,45 +6,44 @@
 
 using namespace Nudfs::FS;
 
-#define ASSERT_EXISTS(x)                                  \
+#define NU_ASSERT_FILE_EXISTS(x)                          \
     do                                                    \
     {                                                     \
-        if (not boost::filesystem::exists(Disk(0)))       \
+        if (!boost::filesystem::exists(disk::name(x)))    \
         {                                                 \
             NU_ERRO << "Master Disk Not initialized";     \
             throw BasicException("Disk Not initialized"); \
         }                                                 \
     } while (0);
 
-Disks::Disks()
+disks::disks()
 {
     EnableTracing;
-    ASSERT_EXISTS(id);
+    NU_ASSERT_FILE_EXISTS(0);
 }
 
-Disks::~Disks()
-{
-    EnableTracing;
-}
-
-void Disks::Sync_Master()
-{
-    EnableTracing;
-    
-}
-
-void Disks::Sync(const int id)
-{
-    EnableTracing;
-    ASSERT_EXISTS(id);
-}
-
-void Disks::Unlink(const int id)
+disks::~disks()
 {
     EnableTracing;
 }
 
-void Disks::Show()
+void disks::sync_master()
+{
+    EnableTracing;
+}
+
+void disks::add(const int id)
+{
+    EnableTracing;
+    NU_ASSERT_FILE_EXISTS(id);
+}
+
+void disks::remove(const int id)
+{
+    EnableTracing;
+}
+
+void disks::show()
 {
     EnableTracing;
 }
