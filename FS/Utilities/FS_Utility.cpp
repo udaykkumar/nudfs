@@ -5,7 +5,7 @@
 #include "Logger.hxx"
 
 
-void init(const char *f = "sample.log")
+void init(const std::string f = "sample.log")
 {
     boost::log::add_file_log(f);
 
