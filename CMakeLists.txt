@@ -17,6 +17,6 @@ set(CMAKE_CXX_STANDARD 17)
 # Project Compiler Arguments
 set(PROJECT_COMPILER_FLAGS " -Wall -fprofile-arcs -ftest-coverage  -std=c++11 ")
 set(PROJECT_LINK_FLAGS     "-lgcov --coverage")
-include_directories( "Common" )
-include_directories( "fs/Sources/inc")
+include_directories( "common" )
+include_directories( "fs/sources/inc")
 add_subdirectory(fs)
