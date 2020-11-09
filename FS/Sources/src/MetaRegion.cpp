@@ -6,14 +6,14 @@
 
 using namespace Nudfs::FS;
 
-#define NU_ASSERT_FILE_EXISTS(x)                          \
-    do                                                    \
-    {                                                     \
-        if (!boost::filesystem::exists(disk::name(x)))    \
-        {                                                 \
-            NU_ERRO << "Master Disk Not initialized";     \
-            throw BasicException("Disk Not initialized"); \
-        }                                                 \
+#define NU_ASSERT_FILE_EXISTS(x)                                                  \
+    do                                                                            \
+    {                                                                             \
+        if (!boost::filesystem::exists(disk::name(x)))                            \
+        {                                                                         \
+            NU_ERRO << "disk {" + disk::name(x) + "} not initialized";            \
+            throw basic_exception("disk {" + disk::name(x) + "} not initialized"); \
+        }                                                                         \
     } while (0);
 
 disks::disks()

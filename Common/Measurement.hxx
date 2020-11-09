@@ -3,28 +3,28 @@
 #include <boost/chrono.hpp>
 #include "Logger.hxx"
 
-struct ExecutionTime
+struct execution_time
 {
-    typedef boost::chrono::high_resolution_clock::time_point ExecutionTime_t;
-    typedef const std::string     ExecitionEvent_t;
-    ExecutionTime_t TStart_;
-    ExecitionEvent_t ExecEvent_;
+    typedef boost::chrono::high_resolution_clock::time_point execution_time_t;
+    typedef const std::string     execution_evt_t;
+    execution_time_t t_start_;
+    execution_evt_t ex_evt_;
         
 
-    ExecutionTime(const std::string execEvent) : 
-    TStart_(boost::chrono::high_resolution_clock::now()),
-    ExecEvent_(execEvent)
+    execution_time(const std::string execEvent) : 
+    t_start_(boost::chrono::high_resolution_clock::now()),
+    ex_evt_(execEvent)
     {
 
     }
 
-    ~ExecutionTime()
+    ~execution_time()
     {
         boost::chrono::milliseconds tDiff =
             (boost::chrono::duration_cast<boost::chrono::milliseconds>(
-                boost::chrono::high_resolution_clock::now() - TStart_));
+                boost::chrono::high_resolution_clock::now() - t_start_));
 
-        NU_INFO << "Execution Time Event " << ExecEvent_ << " : Time " << tDiff << " ms \n";
+        NU_INFO << "Execution Time Event " << ex_evt_ << " : Time " << tDiff << " ms \n";
     }
 };
 

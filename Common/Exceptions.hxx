@@ -9,11 +9,11 @@ namespace Nudfs
 {
     namespace FS
     {
-        struct BasicException : public std::exception
+        struct basic_exception : public std::exception
         {
             std::string Error_;
 
-            BasicException(const std::string reason = "Unknown") : Error_(reason)
+            basic_exception(const std::string reason = "Unknown") : Error_(reason)
             {
                 EnableTracing;
             }

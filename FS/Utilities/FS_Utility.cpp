@@ -64,8 +64,8 @@ int add_device(const int x)
     EnableTracing;
     try
     {
-        run_cmd(create_device(x));
         disks d;
+        run_cmd(create_device(x));
         d.add(x);
     }
     CATCH_ALL_RET;
@@ -77,9 +77,9 @@ int del_device(const int x)
     EnableTracing;
     try
     {
-        run_cmd(delete_device(x));
         disks d;
         d.remove(x);
+        run_cmd(delete_device(x));
     }
     CATCH_ALL_RET;
     return 0;
@@ -112,12 +112,7 @@ int main(int argc, const char **argv)
             ("show-dev", "show existing Devices in use");
         variables_map vm;
         store(parse_command_line(argc, argv, desc), vm);
-        if (vm.count("help"))
-        {
-            std::cout << desc << "\n";
-            return 0;
-        }
-    
+        
         if (vm.count("init-master"))
             return init_master();
             
@@ -129,7 +124,8 @@ int main(int argc, const char **argv)
         
         if (vm.count("show-dev"))
             return show_devices();
-        
+
+        std::cout << desc << "\n";
     }
     CATCH_ALL_RET;
     return 0;
