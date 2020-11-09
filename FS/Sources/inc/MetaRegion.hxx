@@ -2,16 +2,16 @@
 #define __METAREGION_H__
 
 #include <iostream>
-#include "Logger.hxx"
-#include "Constants.hxx"
+#include <logger.hxx>
+#include <constants.hxx>
 
-namespace Nudfs
+namespace nudfs
 {
-    namespace FS
+    namespace fs
     {
         static const std::string BlockCountString(const int id = 0)
         {
-            return std::to_string(id ? Constants::BlockCount : Constants::BlockCount_DFS0);
+            return std::to_string(id ? constants::BlockCount : constants::BlockCount_Dfs0);
         }
 
         struct type_guard
@@ -23,7 +23,7 @@ namespace Nudfs
         struct disk
         {
             type_guard  head_;
-            char        name_[Constants::Max_Name_Len];
+            char        name_[constants::Max_Name_Len];
             type_guard  foot_;
 
             disk(std::string n) : 
@@ -31,7 +31,7 @@ namespace Nudfs
                 foot_(0)
             {
                 EnableTracing;
-                std::memcpy(name_, n.c_str(), Constants::Max_Name_Len);
+                std::memcpy(name_, n.c_str(), constants::Max_Name_Len);
             }
 
             disk() : 
@@ -39,18 +39,18 @@ namespace Nudfs
                 foot_(0)
             {
                 EnableTracing;
-                std::memset(name_, 0x00, Constants::Max_Name_Len);
+                std::memset(name_, 0x00, constants::Max_Name_Len);
             }
 
             static const std::string name(const int id = 0)
             {
-                return Constants::MasterDisk + std::to_string(id);
+                return constants::MasterDisk + std::to_string(id);
             }
         };
 
         struct disks
         {
-            disk disk_[Constants::Max_Supported_Disks];
+            disk disk_[constants::Max_Supported_Disks];
 
             disks();
             ~disks();
@@ -64,7 +64,7 @@ namespace Nudfs
             
         };
 
-    } // namespace FS
-} // namespace Nudfs
+    } // namespace fs
+} // namespace nudfs
 
 #endif // __METAREGION_H__

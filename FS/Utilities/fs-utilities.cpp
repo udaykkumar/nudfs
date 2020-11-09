@@ -1,20 +1,20 @@
 #include <iostream>
 #include <boost/process.hpp>
 #include <boost/program_options.hpp>
-#include "MetaRegion.hxx"
-#include "Logger.hxx"
+#include <metaregion.hxx>
+#include <logger.hxx>
 
 
 void init(const std::string f = "sample.log")
 {
-    boost::log::add_file_log(f);
+    //boost::log::add_file_log(f);
 
     boost::log::core::get()->set_filter(
-        logging::trivial::severity >= logging::trivial::trace);
+        logging::trivial::severity >= logging::trivial::debug);
 }
 
-using namespace Nudfs::FS;
-using namespace Nudfs::FS::Constants;
+using namespace nudfs::fs;
+using namespace nudfs::fs::constants;
 using namespace boost::program_options;
 
 const std::string create_device(const int dfsid = 0)

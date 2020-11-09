@@ -1,7 +1,7 @@
 #ifndef __MEASUREMENT_H__
 #define __MEASUREMENT_H__
 #include <boost/chrono.hpp>
-#include "Logger.hxx"
+#include <logger.hxx>
 
 struct execution_time
 {

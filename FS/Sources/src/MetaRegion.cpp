@@ -1,10 +1,10 @@
 #include <boost/filesystem.hpp>
 
-#include "Logger.hxx"
-#include "MetaRegion.hxx"
-#include "Exceptions.hxx"
+#include <logger.hxx>
+#include <metaregion.hxx>
+#include <exceptions.hxx>
 
-using namespace Nudfs::FS;
+using namespace nudfs::fs;
 
 #define NU_ASSERT_FILE_EXISTS(x)                                                  \
     do                                                                            \
@@ -30,17 +30,24 @@ disks::~disks()
 void disks::sync_master()
 {
     EnableTracing;
+    auto d = disk::name(0);
+    NU_DBUG << "syncing " << d;
 }
 
 void disks::add(const int id)
 {
     EnableTracing;
     NU_ASSERT_FILE_EXISTS(id);
+    auto d = disk::name(id);
+    NU_DBUG << "adding " << d;
 }
 
 void disks::remove(const int id)
 {
     EnableTracing;
+    NU_ASSERT_FILE_EXISTS(id);
+    auto d = disk::name(id);
+    NU_DBUG << "removing " << d;
 }
 
 void disks::show()

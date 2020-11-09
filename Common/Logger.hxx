@@ -1,5 +1,5 @@
-#ifndef __LOGGER_H__
-#define __LOGGER_H__
+#ifndef __logger_H__
+#define __logger_H__
 
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
@@ -9,7 +9,7 @@
 namespace logging = boost::log;
 
 #define NU_TRCE BOOST_LOG_TRIVIAL(trace)
-#define NU_DEBG BOOST_LOG_TRIVIAL(debug)
+#define NU_DBUG BOOST_LOG_TRIVIAL(debug)
 #define NU_INFO BOOST_LOG_TRIVIAL(info)
 #define NU_WARN BOOST_LOG_TRIVIAL(warning)
 #define NU_ERRO BOOST_LOG_TRIVIAL(error)
@@ -70,4 +70,4 @@ struct CallTrace
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#endif // __LOGGER_H__
+#endif // __logger_H__

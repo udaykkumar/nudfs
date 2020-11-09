@@ -3,11 +3,11 @@
 
 #include <iostream>
 #include <exception>
-#include "Logger.hxx"
+#include <logger.hxx>
 
-namespace Nudfs
+namespace nudfs
 {
-    namespace FS
+    namespace fs
     {
         struct basic_exception : public std::exception
         {
@@ -25,7 +25,7 @@ namespace Nudfs
                 return e;
             }
         };
-    } // namespace FS
-} // namespace Nudfs
+    } // namespace fs
+} // namespace nudfs
 
 #endif // __EXCEPTIONS_H__

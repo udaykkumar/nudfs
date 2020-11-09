@@ -1,6 +1,6 @@
 # Minimum CMake
 cmake_minimum_required(VERSION 2.8,9)
-project(Nu_Dfs)
+project(nudfs)
 
 # Boost and Family
 #set(Boost_USE_STATIC_LIBS ON)
@@ -18,5 +18,5 @@ set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_COMPILER_FLAGS " -Wall -fprofile-arcs -ftest-coverage  -std=c++11 ")
 set(PROJECT_LINK_FLAGS     "-lgcov --coverage")
 include_directories( "Common" )
-include_directories( "FS/Sources/inc")
-add_subdirectory(FS)
+include_directories( "fs/Sources/inc")
+add_subdirectory(fs)
