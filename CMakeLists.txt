@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 2.8,9)
 project(nudfs)
 
 # Boost and Family
-#set(Boost_USE_STATIC_LIBS ON)
-set_target_properties(${TARGET} PROPERTIES COMPILE_DEFINITIONS "BOOST_LOG_DYN_LINK")
+set(Boost_USE_STATIC_LIBS ON)
+#set_target_properties(${TARGET} PROPERTIES COMPILE_DEFINITIONS "BOOST_LOG_DYN_LINK")
 find_package(
   Boost
   COMPONENTS unit_test_framework log program_options
