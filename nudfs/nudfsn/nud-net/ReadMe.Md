@@ -1,46 +1,46 @@
-Typical Server side 
+#### Typical Server side 
 
 
-namespace nudfs
-{
-    namespace net
+##### Networking interface ..
+    namespace nudfs
     {
-        void fall_through( op, iBuf, oBuf )
+        namespace net
         {
-            // a functor of corresponding op handle
-            fs::stepi.get()[op]( iBuf, oBuf );
-        }
+            void fall_through( op, iBuf, oBuf )
+            {
+                // a functor of corresponding op handle
+                fs::stepi.get()[op]( iBuf, oBuf );
+            }
 
-        void async_do_op()
-        {
-            auto op   = resp.op();
-            auto iBuf = std::optional( resp.inBuf() );
-            auto oBuf = std::optional( resp.inBuf() );
+            void async_do_op()
+            {
+                auto op   = resp.op();
+                auto iBuf = std::optional( resp.inBuf() );
+                auto oBuf = std::optional( resp.inBuf() );
     
-            // This will eventually call the corresponding fs-calls
-            fall_through( op, iBuf, oBuf );
-        }
+                // This will eventually call the corresponding fs-calls
+                fall_through( op, iBuf, oBuf );
+            }
 
-        void net()
-        {
-            
-            // some Async List and accept handlers
-            // somewhere along the lines of
+            void net()
+            {
+                
+                // some Async List and accept handlers
+                // somewhere along the lines of
 
-            auto respond = [] () {
-                tcp_acceptor.respond(resp);
-            } ;
+                auto respond = [] () {
+                    tcp_acceptor.respond(resp);
+                } ;
 
-            tcp_acceptor.async_accept(tcp_socket, [respond]() {
-                // Accept handler
-                // series of read and parse request()
+                tcp_acceptor.async_accept(tcp_socket, [respond]() {
+                    // Accept handler
+                    // series of read and parse request()
         
-                async_do_op( req,  respond );
-            });
+                    async_do_op( req,  respond );
+                });
+            }
         }
     }
-    
-}
 
 
 
