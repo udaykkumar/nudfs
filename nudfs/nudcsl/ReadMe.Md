@@ -2,7 +2,8 @@
 
 ### Typical Clinet :
 
-    
+
+#### Client
     namespace nudfs
     {
         // Node Operations 
@@ -56,6 +57,7 @@
     }  
 
 
+##### Usage
 
     int main(int ac, char **av )
     {
