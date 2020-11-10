@@ -18,7 +18,23 @@ set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_COMPILER_FLAGS " -Wall -fprofile-arcs -ftest-coverage  -std=c++11 ")
 set(PROJECT_LINK_FLAGS     "-lgcov --coverage")
 
-#include_directories( "common" )
-#include_directories( "fs/sources/")
+#include directories
+include_directories( "nudfs/nud-common" )
+include_directories( "nudfs/nud-csl" )
+include_directories( "nudfs/nud-dev" )
+include_directories( "nudfs/nud-fs" )
+include_directories( "nudfs/nud-net" )
+include_directories( "nudfs/nud-utils" )
+
+
+file(GLOB TEST_SOURCES_NUD_COMMON     "nudfs/nud-common/*.cpp"  )
+file(GLOB TEST_SOURCES_NUD_CSL        "nudfs/nud-csl/*.cpp"     )
+file(GLOB TEST_SOURCES_NUD_DEV        "nudfs/nud-dev/*.cpp"     )
+file(GLOB TEST_SOURCES_NUD_FS         "nudfs/nud-fs/*.cpp"      )
+file(GLOB TEST_SOURCES_NUD_UTILS      "nudfs/nud-utils/*.cpp"   )
+
+
+
+add_subdirectory(nudfs)
 add_subdirectory(unit-tests)
 
