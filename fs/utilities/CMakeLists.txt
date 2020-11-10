@@ -3,7 +3,7 @@
 
  file(GLOB APP_SOURCES *.c**)
  # Horrible Hack .. I should grow up a bit
- file(GLOB fs_SOURCES ../sources/src/*.c**)
+ file(GLOB fs_SOURCES ../sources/*.c**)
  
  foreach(sourceFile ${APP_SOURCES})
      get_filename_component(name ${sourceFile} NAME_WE)
