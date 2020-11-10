@@ -11,9 +11,9 @@ namespace nudfs
     {
         struct basic_exception : public std::exception
         {
-            std::string Error_;
+            std::string es_;
 
-            basic_exception(const std::string reason = "Unknown") : Error_(reason)
+            basic_exception(const std::string reason = "Unknown") : es_(reason)
             {
                 EnableTracing;
             }
@@ -21,7 +21,7 @@ namespace nudfs
             virtual const char *what() const throw()
             {
                 EnableTracing;
-                const char *e = Error_.c_str();
+                const char *e = es_.c_str();
                 return e;
             }
         };

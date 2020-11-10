@@ -7,6 +7,7 @@ struct execution_time
 {
     typedef boost::chrono::high_resolution_clock::time_point execution_time_t;
     typedef const std::string     execution_evt_t;
+
     execution_time_t t_start_;
     execution_evt_t ex_evt_;
         

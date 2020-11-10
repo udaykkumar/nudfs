@@ -21,23 +21,23 @@ namespace logging = boost::log;
 
 struct CallTrace
 {
-    const char *function_;
+    const char *func_;
 
-    CallTrace(const char *function) : function_(function)
+    CallTrace(const char *function) : func_(function)
     {
-        BOOST_LOG_TRIVIAL(trace) << "ENTRY : " << function_;
+        BOOST_LOG_TRIVIAL(trace) << "ENTRY : " << func_;
     }
 
     ~CallTrace()
     {
-        BOOST_LOG_TRIVIAL(trace) << "EXIT  : " << function_;
+        BOOST_LOG_TRIVIAL(trace) << "EXIT  : " << func_;
     }
 };
 
 #define EnableTracing            \
     do                           \
     {                            \
-        CallTrace(__FUNCTION__); \
+        CallTrace(__func__); \
     } while (0);
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 

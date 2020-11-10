@@ -60,8 +60,6 @@ namespace nudfs
             void sync_master();
             void remove(const int id);
             void show();
-
-            
         };
 
     } // namespace fs
