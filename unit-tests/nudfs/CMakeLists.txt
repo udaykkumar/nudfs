@@ -10,7 +10,7 @@ file(GLOB UT_SOURCES_NUD_UTILS      "nud-utils/*.cpp"   )
 
 add_executable( "nudfs-unittest" 
                 "suite-runner.cpp"
-                ${UT_SOURCES_NUD_COMMON}
+                ${UT_SOURCES_NUD_COMMON} ${TEST_SOURCES_NUD_COMMON}
                 ${UT_SOURCES_NUD_CSL}
                 ${UT_SOURCES_NUD_DEV}
                 ${UT_SOURCES_NUD_FS}

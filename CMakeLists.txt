@@ -34,7 +34,7 @@ file(GLOB TEST_SOURCES_NUD_FS         "nudfs/nud-fs/*.cpp"      )
 file(GLOB TEST_SOURCES_NUD_UTILS      "nudfs/nud-utils/*.cpp"   )
 
 
-
+add_subdirectory(experiments)
 add_subdirectory(nudfs)
 add_subdirectory(unit-tests)
 
